@@ -1,10 +1,72 @@
-from src.math import __version__
-from src.math import multiply_two_numbers
+import json
+
+from src.main import __version__
 
 
 def test_version():
-    assert __version__ == '0.1.0'
+    assert __version__ == "0.1.0"
 
-def test_multiply_two_numbers():
-    result = multiply_two_numbers(2, 3)
-    assert result == 6
+
+def test_get_slide(client):
+    response = client.post(
+        "/get_slide",
+        data=json.dumps({"slide_id": "KL20-12031_B_2.35.1"}),
+        content_type="application/json",
+    )
+
+    data = json.loads(response.get_data(as_text=True))
+
+    assert response.status_code == 200
+    assert data["slide_id"] == "KL20-12031_B_2.35.1"
+    assert data["accepted"]
+
+
+def test_get_slides(client):
+    response = client.post(
+        "/get_slides",
+        data=json.dumps(
+            {"slide_ids": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]}
+        ),
+        content_type="application/json",
+    )
+
+    data = json.loads(response.get_data(as_text=True))
+
+    assert response.status_code == 200
+    assert data["slide_ids"] == ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]
+    assert data["accepted"]
+
+
+def test_store_slide(client):
+    response = client.post(
+        "/store_slide",
+        data=json.dumps(
+            {
+                "slide_id": "KL20-12031_B_2.35.1",
+                "storage_box": "box_1",
+            }
+        ),
+        content_type="application/json",
+    )
+
+    data = json.loads(response.get_data(as_text=True))
+
+    assert response.status_code == 200
+    assert data["slide_id"] == "KL20-12031_B_2.35.1"
+    assert not data["accepted"]
+
+
+def test_store_slides(client):
+    response = client.post(
+        "/store_slides",
+        data=json.dumps(
+            {"slide_ids": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]}
+        ),
+        content_type="application/json",
+    )
+
+    data = json.loads(response.get_data(as_text=True))
+
+    assert response.status_code == 200
+    assert data["slide_ids"] == ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]
+    assert not data["accepted"]
