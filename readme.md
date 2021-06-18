@@ -51,4 +51,3 @@ Each endpoint will return a boolean True (success) / False (failure).
     "response": true
 }
 ```
-
