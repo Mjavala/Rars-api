@@ -1,3 +1,4 @@
+import eventlet
 from flask import Flask, jsonify, request
 from flask_socketio import SocketIO
 
@@ -8,7 +9,8 @@ slide_test_data = {}
 
 def create_app():
     app = Flask(__name__)
-    socketio = SocketIO(app)
+    eventlet.monkey_patch()
+    socketio = SocketIO(app, async_mode="eventlet")
 
     @app.route("/get_slide", methods=["POST"])
     def get_slide():
