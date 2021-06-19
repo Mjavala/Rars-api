@@ -1,10 +1,8 @@
 import eventlet
 from flask import Flask, jsonify, request
-from flask_socketio import SocketIO
+from flask_socketio import SocketIO, emit
 
 __version__ = "0.1.0"
-
-slide_test_data = {}
 
 
 def create_app():
@@ -106,9 +104,17 @@ def create_app():
             }
         )
 
-    @socketio.on("health_check")
-    def health_check(message):
-        print("ok")
+    @socketio.on("connect")
+    def on_connect():
+        emit("Succesfully Connected to Server")
+
+    @socketio.on("ping")
+    def on_ping():
+        emit("pong")
+
+    @socketio.on_error_default
+    def default_error_handler(e):
+        print("Error in websockets: {0}".format(request))
 
     return app, socketio
 
