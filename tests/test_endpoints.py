@@ -10,7 +10,9 @@ def test_version():
 def test_get_slide(client):
     response = client.post(
         "/get_slide",
-        data=json.dumps({"slide_id": "KL20-12031_B_2.35.1"}),
+        data=json.dumps(
+            {"timestamp": 1221445323, "payload": "KL20-12031_B_2.35.1"}
+        ),
         content_type="application/json",
     )
 
@@ -25,7 +27,11 @@ def test_get_slides(client):
     response = client.post(
         "/get_slides",
         data=json.dumps(
-            {"slide_ids": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]}
+            {
+                "timestamp": 1221445323,
+                "type": "ids",
+                "payload": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"],
+            }
         ),
         content_type="application/json",
     )
@@ -42,7 +48,8 @@ def test_store_slide(client):
         "/store_slide",
         data=json.dumps(
             {
-                "slide_id": "KL20-12031_B_2.35.1",
+                "timestamp": 1221445323,
+                "payload": "KL20-12031_B_2.35.1",
                 "storage_box": "box_1",
             }
         ),
@@ -60,7 +67,11 @@ def test_store_slides(client):
     response = client.post(
         "/store_slides",
         data=json.dumps(
-            {"slide_ids": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"]}
+            {
+                "timestamp": 12412354325,
+                "storage_box": "box_1",
+                "payload": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"],
+            }
         ),
         content_type="application/json",
     )

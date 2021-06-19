@@ -94,10 +94,10 @@ def create_app():
             'timestamp': Number (unix)
         }
         """
-        data = request.get_json()
+        # data = request.get_json()
         return jsonify(
             {
-                "slide_ids": data["slide_ids"],
+                "slide_ids": ["KL20-12031_B_2.35.1", "KL20-11898_A_3.3.1"],
                 "accepted": False,
                 "status": "Task schedule succesful",
                 "timestamp": 1624012668,
